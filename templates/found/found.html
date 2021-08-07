@@ -1,0 +1,170 @@
+<!-- templates/tweet/home.html -->
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+    <div class="container timeline-container">
+        <div class="row">
+            <!-- 왼쪽 컬럼 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">동물 목격 신고</h5>
+                        <h3 class="card-title"> 💗 {{ user.username }} 님</h3>
+                        <p class="card-text"> 안녕하세요, {{ user.username }} 님! <br> 누군가의 소중한 가족을 위해<br> 시간 내어 주셔서, <br>진심으로 고맙습니다. <br><br> 멋진 당신을 응원합니다!</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 오른 쪽 컬럼-->
+            <div class="col-md-7">
+                <!-- 글을 작성 하는 곳 -->
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h3 class="mt-0">목격신고작성</h3>
+                                        <p>
+                                        <form method="post" action="/found/" enctype="multipart/form-data">
+                                            {% csrf_token %}
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>분류</h5>
+                                                <select name='my-category' id="my-category">
+                                                    <option value='none' selected> 선택 </option>
+                                                    <option value='개'>개</option>
+                                                    <option value='고양이'>고양이</option>
+                                                    <option value='기타축종'>기타축종</option>
+                                                </select>
+                                            </div>
+
+
+                                        <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>크기</h5>
+                                                <select name='my-size' id="my-size">
+                                                    <option value='none' selected> 선택 </option>
+                                                    <option value='소형'>소형</option>
+                                                    <option value='중형'>중형</option>
+                                                    <option value='대형'>대형</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>색깔</h5>
+                                                <p>색깔을 선택할 시, '노랑', '검정' 등 명확하게 작성해주세요! (ex: 바둑이의 경우 '흰색 검정')</p>
+                                                <textarea class="form-control" style="resize: none" name='my-color' id="my-color"></textarea>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 0px 0px;">
+                                                <h5>위치</h5>
+                                            </div>
+
+                                            <div style="float:left; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <p>시</p>
+                                                <textarea class="form-control" style="resize: none; float:left;" name='my-location1' id="my-location1"></textarea>
+                                            </div>
+
+                                            <div style="float:left; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <p>구</p>
+                                                <textarea class="form-control" style="resize: none; float:left;" name='my-location2' id="my-location1"></textarea>
+                                            </div>
+
+                                            <div style="float:right; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <p>동(면)</p>
+                                                <textarea class="form-control" style="resize: none; float:left;" name='my-location3' id="my-location1"></textarea>
+                                            </div>
+
+                                            <div style="float:right; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <input type="file" name='my-image' id="my-image"></input>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 30px 0px 15px 0px;">
+                                                <h5>추가 설명</h5>
+                                                <p>주인분이 확실히 알아볼 수 있도록, 동물의 특징을 작성해주세요!</p>
+                                                <textarea class="form-control" style="resize: none" name='my-content' id="my-content"></textarea>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>휴대폰 번호(선택)</h5>
+                                                <p>주인분께서 귀하에게 연락할 수 있도록, 휴대폰 번호를 작성해주세요!</p>
+                                                <p>전화번호는 홈페이지에 노출되지 않습니다.</p>
+                                                <select name='my-phone_num' id="my-phone_num">
+                                                    <option value='none' selected> 선택 </option>
+                                                    <option value='yes'>주인으로부터 연락 허용</option>
+                                                    <option value='no'>주인으로부터 연락 비허용</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" style="float:right;">작성하기</button>
+                                        </form>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- 작성 된 글이 나오는 곳 -->
+                <div class="row">
+                    {% for tw in tweet %}
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                             <!-- 게시물 수정삭제 기능 : 본인 게시물은 삭제, 그것이 아니면 보기만 적용 -->
+                                 {% if tw.author == user %}
+                                        <div style="text-align: right">
+                                            <a href="/found/delete/{{ tw.id }}">
+                                                <span class="badge rounded-pill bg-danger">삭제</span>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                    <div style="text-align: right">
+                                        <a href="/found/{{ tw.id }}">
+                                            <span class="badge rounded-pill bg-success">보기</span>
+                                        </a>
+                                    </div>
+
+
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="mt-0"><strong>발견일시</strong> {{ tw.created_at }}</p>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="mt-0"><strong>종류</strong> {{ tw.category }}</p>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="mt-0"><strong>발견 위치</strong> {{ tw.city }}</p>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="mt-0"><strong>크기</strong> {{ tw.size }}</p>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="mt-0"><strong>색깔</strong> {{ tw.color }}</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="mt-0"><strong>사진</strong> </p>
+                                    <img src="{{ tw.image.url }}" alt="found photo"></div>
+
+                                    <div style="text-align: right">
+                                        <span style="font-size: small">{{ tw.author.username }}-{{ tw.created_at|timesince }} 전</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,95 @@
+
+<!-- templates/tweet/tweet_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}
+    게시글 자세히보기
+{% endblock %}
+
+{% block content %}
+    <div class="container timeline-container">
+        <div class="row">
+            <!-- 왼쪽 컬럼 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> 💗 {{ user.username }} 님</h5>
+                        <p class="card-text"> 안녕하세요, {{ user.username }} 님! <br> 누군가의 소중한 가족을 위해<br>시간 내어 주셔서, <br>진심으로 고맙습니다. <br><br> 멋진 당신을 응원합니다!</p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 오른 쪽 컬럼-->
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                {% if tweet.author == user %}
+                                    <div style="text-align: right">
+                                        <a href="/found/delete/{{ tweet.id }}">
+                                            <span class="badge rounded-pill bg-danger">삭제</span>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                                <div class="media">
+                                    <div class="media-bod">
+                                        <h5 class="mt-0">발견일시</h5>
+                                        <p>{{ tweet.created_at }}</p>
+                                        <br>
+                                    </div>
+                                    <div class="media-bod">
+                                        <h5 class="mt-0">발견장소</h5>
+                                        <p>{{ tweet.city }}시 {{ tweet.district }}구 {{ tweet.neighborhood }} 동(면)</p>
+                                        <br>
+                                    </div>
+                                    <div class="media-bod">
+                                        <h5 class="mt-0">분류</h5>
+                                        <p>{{ tweet.category }}</p>
+                                        <br>
+                                    </div>
+                                    <div class="media-bod">
+                                        <h5 class="mt-0">색깔</h5>
+                                        <p>{{ tweet.color }}</p>
+                                        <br>
+                                    </div>
+                                    <div class="media-bod">
+                                        <h5 class="mt-0">크기</h5>
+                                        <p>{{ tweet.size }}</p>
+                                        <br>
+                                    </div>
+
+                                    <div>
+                                        <p class="mt-0"><strong>사진</strong> </p>
+                                        <img src="{{ tweet.image.url }}" alt="found photo">
+                                        <br>
+                                    </div>
+
+
+                             <!-- 목격 게시물에 연락처를 남겼을 경우, 아래 정보를 노출하도록 허용 -->
+                                 {% if tweet.phone_num != 'no' or tweet.phone_num != 'none' %}
+                                    <form method="post" action="/found/{{ tweet.id }}">
+                                        {% csrf_token %}
+                                        <br>
+                                        <div>
+                                            <p class="mt-0"><strong>해당 목격자는 주인으로부터의 연락을 허용했습니다.(?) 목격자에게 전화 요청을 원하신다면, 아래 '연락해보기' 버튼을 눌러주세요.</strong> </p>
+                                            <p class="mt-0">단, 귀하의 연락처는 해당 목격자에게 전달됩니다.</p>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" style="float:right;">연락해보기</button>
+                                    </form>
+                                    {% endif %}
+
+
+                                    <div style="text-align: right">
+                                        <span style="font-size: small">{{ tweet.author.username }}-{{ tweet.created_at|timesince }} 전</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

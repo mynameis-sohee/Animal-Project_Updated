@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    회원가입
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="wrap">
+            <h2 class="title-center"> 회원가입 </h2>
+            <form class="form-area" method="post" action="/sign-up/">
+                {% csrf_token%}
+                <div class="form-group mt-2 mb-2">
+                    <label for="username">아이디</label>
+                    <input type="text" class="form-control" id="username" name="username">
+                </div>
+
+                <div class="form-group mt-2 mb-2">
+                    <label for="password">비밀번호</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+
+                <div class="form-group mt-2 mb-2">
+                    <label for="password2">비밀번호 확인</label>
+                    <input type="password" class="form-control" id="password2" name="password2">
+                </div>
+
+                <!-- 목적 어떻게 넣을지 고민중 -->
+                <div class="form-group mt-2 mb-2">
+                    <label for="purpose">가입 목적이 무엇인가요?</label>
+                    <select class="border rounded-0 form-control form-control-sm" name= "purpose">
+                        <optgroup>
+                                <option> 선택 </option>
+                                <option> 동물 목격신고를 위해 가입해요! </option>
+                                <option> 동물 실종신고를 위해 가입해요! </option>
+                                <option> 동물보호소 관계자예요! </option>
+                                <option> 지역 시민으로써 가입해요! </option></optgroup>
+                    </select>
+                </div>
+
+
+                <div class="form-group mt-2 mb-2">
+                    <label for="purpose">당신이 살고 있는 주소를 선택해주세요!</label>
+                    <select class="border rounded-0 form-control form-control-sm" name= "city">
+                        <optgroup>
+                                <option> 선택 </option>
+                                <option> 청주시 </option>
+                                <option> 대전광역시 </option></optgroup>
+                    </select>
+
+
+<!-- (수정필요) 위에서 시 선택하면 그에 맞는 구 적용 : js 이용 -->
+                    <select class="border rounded-0 form-control form-control-sm" name= "district">
+                        <optgroup>
+                                <option> 선택 </option>
+                                <option>청주시 청원구</option>
+                                <option>청주시 상당구</option>
+                                <option>청주시 서원구</option>
+                                <option>청주시 흥덕구</option>
+                                <option>대전광역시 대덕구</option>
+                                <option>대전광역시 동구</option>
+                                <option>대전광역시 서구</option>
+                                <option>대전광역시 유성구</option>
+                                <option>대전광역시 중구</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+
+                <div class="form-group mt-2 mb-2">
+                    <label for="sex">성별</label>
+                    <br>
+                    <input type="checkbox" id="female" name="sex" value="female" />여성
+                    <input type="checkbox" id="male" name="sex" value="male"/>남성
+                </div>
+
+                <div class="form-group mt-2 mb-2">
+                    <label for="age">나이 (입력 예시: 40)</label>
+                    <input type="text" class="form-control" id="age" name="age">
+                </div>
+
+
+            <!-- ※ 수정! 생각해보니 연락처는 모두에게 입력하도록 설정해도 괜찮을듯한데 (코딩하기 번거로울것같아서 ㅜㅜ) 어때? -->
+                <div class="form-group mt-2 mb-2">
+                    <label for="tel">연락처</label>
+                    <input type="text" class="form-control" id="phone_num" name="phone_num">
+                </div>
+
+                <!-- 에러가 만약 있으면 알람을 켜라는 의미 -->
+                {% if error %}
+                    <div class="'alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <hr>
+                <div style="float: right">
+                    <button type="submit" class="btn btn-primary">회원가입</button>
+                    <a href="/sign-in" class="btn btn-secondary">로그인 페이지로</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

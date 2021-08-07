@@ -1,0 +1,44 @@
+<!-- templates/tweet/home.html -->
+{% extends 'base.html' %}
+
+
+{% block content %}
+                <!-- 작성 된 글이 나오는 곳 -->
+                <div class="row">
+                    {% for an in animal %}
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                             <!-- 게시물 상세보기 기능 -->
+                                    <div style="text-align: right">
+                                        <a href="/found/{{ an.id }}">
+                                            <span class="badge rounded-pill bg-success">보기</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <p class="mt-0"><strong>색깔</strong> {{ an.happenDt }}</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="mt-0"><strong>사진</strong> </p>
+                                        <a><img src="{{ an.popfile }}"></a></div>
+
+                                    <div style="text-align: right">
+                                        <span style="font-size: small">{{ an.happenDt }}-{{ an.happenDt }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock %}

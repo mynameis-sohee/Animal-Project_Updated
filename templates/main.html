@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    회원가입
+{% endblock %}
+{% block content %}
+<div class="container">
+
+	<h2>버튼의 크기 조절</h2>
+
+	<div id="found" class="center-block">
+	  <a href="/found" class="btn btn-primary btn-lg">동물 목격 신고</a>
+	</div>
+    <br>
+	<div id="missing" class="center-block">
+        <a href="/missing" class="btn btn-primary btn-lg">동물 실종 신고</a>
+	</div>
+    <br>
+	<div id="animal" class="center-block">
+        <a href="/animal" class="btn btn-primary btn-lg">유기동물 접수현황</a>
+	</div>
+
+</div>
+
+{% endblock %}
