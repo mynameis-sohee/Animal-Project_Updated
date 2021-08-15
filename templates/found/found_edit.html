@@ -1,0 +1,98 @@
+<!-- templates/tweet/home.html -->
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+<div class="container timeline-container">
+    <!-- 오른 쪽 컬럼-->
+    <div class="col-md-7">
+        <!-- 글을 작성 하는 곳 -->
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h3 class="mt-0">목격신고작성</h3>
+                                <p>
+                                <form method="post" action="/found/edit/{{ tweet.id }}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                            <div><img src="{{ tweet.image.url }}" alt="found photo"></div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>분류</h5>
+                                                <select name='my-category' id="my-category">
+                                                    <option value='{{ tweet.category }}' selected> {{ tweet.category }} </option>
+                                                    <option value='개'>개</option>
+                                                    <option value='고양이'>고양이</option>
+                                                    <option value='기타축종'>기타축종</option>
+                                                </select>
+                                            </div>
+
+
+                                        <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>크기</h5>
+                                                <select name='my-size' id="my-size">
+                                                    <option value='{{ tweet.size }}' selected> {{ tweet.size }} </option>
+                                                    <option value='소형'>소형</option>
+                                                    <option value='중형'>중형</option>
+                                                    <option value='대형'>대형</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>색깔</h5>
+                                                <p>색깔을 선택할 시, '노랑', '검정' 등 명확하게 작성해주세요! (ex: 바둑이의 경우 '흰색 검정')</p>
+                                                <textarea class="form-control" style="resize: none" name='my-color' id="my-color">{{ tweet.color }}</textarea>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 0px 0px;">
+                                                <h5>위치</h5>
+                                            </div>
+
+                                            <div style="float:left; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <p>시</p>
+                                                <textarea class="form-control" style="resize: none; float:left;" name='my-location1' id="my-location1">{{ tweet.city }}</textarea>
+                                            </div>
+
+                                            <div style="float:left; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <p>구</p>
+                                                <textarea class="form-control" style="resize: none; float:left;" name='my-location2' id="my-location2">{{ tweet.district }}</textarea>
+                                            </div>
+
+                                            <div style="float:right; margin-right:10px; padding: 0px 0px 15px 0px;" class="form-group mb-2">
+                                                <p>동(면)</p>
+                                                <textarea class="form-control" style="resize: none; float:left;" name='my-location3' id="my-location3">{{ tweet.neighborhood }}</textarea>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 30px 0px 15px 0px;">
+                                                <h5>추가 설명</h5>
+                                                <p>주인분이 확실히 알아볼 수 있도록, 동물의 특징을 작성해주세요!</p>
+                                                <textarea class="form-control" style="resize: none" name='my-content' id="my-content">{{ tweet.content }}</textarea>
+                                            </div>
+
+                                            <div class="form-group mb-2" style = "padding: 15px 0px 15px 0px;">
+                                                <h5>휴대폰 번호(선택)</h5>
+                                                <p>주인분께서 귀하에게 연락할 수 있도록, 휴대폰 번호를 작성해주세요!</p>
+                                                <p>전화번호는 홈페이지에 노출되지 않습니다.</p>
+                                                <select name='my-phone_num' id="my-phone_num">
+                                                    <option value='yes'>주인으로부터 연락 허용</option>
+                                                    <option value='no'>주인으로부터 연락 비허용</option>
+                                                </select>
+                                            </div>
+
+                                    <button type="submit" class="btn btn-primary" style="float:right;">수정하기</button>
+                                </form>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

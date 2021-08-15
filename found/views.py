@@ -43,7 +43,7 @@ def found(request):
             if request.POST.get('my-phone_num') == 'yes':
                 my_tweet.phone_num = user.phone_num
             else:
-                my_tweet.phone_num = request.POST.get('my-phone', '')
+                my_tweet.phone_num = 'no'
             my_tweet.image = request.FILES['my-image']
 
             my_tweet.save()
@@ -53,11 +53,16 @@ def found(request):
 
 @login_required
 def delete_tweet(request, id):
+    user = request.user
+    my_tweet = TweetFoundModel.objects.get(id=id)
     if request.method == 'GET':
-        my_tweet = TweetFoundModel.objects.get(id=id)
-        my_tweet.delete()
-        messages.info(request, 'Three credits remain in your account.')
-        return redirect('/found')
+        if my_tweet.author == user:
+            my_tweet.delete()
+            messages.info(request, 'Three credits remain in your account.')
+            return redirect('/found')
+        else:
+            print('권한없음')
+            return redirect('/found')
 
 
 @login_required
@@ -68,13 +73,13 @@ def detail_tweet(request, id):
         return render(request,'found/found_detail.html', {'tweet':tweet})
 
     elif request.method == 'POST':
-        sid = "ncp:sms:kr:보안:phone_number"
-        sms_uri = "/sms/v2/services/ncp:sms:kr:보안:phone_number/messages"
-        sms_url = "https://sens.apigw.ntruss.com/sms/v2/services/ncp:sms:kr:보안:phone_number/messages"
-        sec_key = "{보안}"
+        sid = "n"
+        sms_uri = "n"
+        sms_url = "n"
+        sec_key = "{n}"
 
-        acc_key_id = "보안"
-        acc_sec_key = b'보안'
+        acc_key_id = "n"
+        acc_sec_key = b'n'
 
         stime = int(float(time.time()) * 1000)
 
@@ -83,7 +88,7 @@ def detail_tweet(request, id):
         digest = hmac.new(acc_sec_key, msg=hash_str.encode('utf-8'), digestmod=hashlib.sha256).digest()
         d_hash = base64.b64encode(digest).decode()
 
-        from_no = "보안"
+        from_no = "n"
 
         # 로그인 유저(주인 추정) 번호 - 특수기호 제거
         user_no = "{}".format(''.join(char for char in user.phone_num if char.isalnum()))
@@ -115,4 +120,25 @@ def detail_tweet(request, id):
         return render(request,'found/found_detail.html', {'tweet':tweet})
 
 
+@login_required
+def edit_tweet(request, id):
+    my_tweet = TweetFoundModel.objects.get(id=id)
+    if request.method == 'GET':
+        return render(request,'found/found_edit.html', {'tweet':my_tweet})
+    else:
+        my_tweet = TweetFoundModel.objects.get(id=id)
+        my_tweet.content = request.POST.get('my-content', my_tweet.content)
+        my_tweet.city = request.POST.get('my-location1', my_tweet.city)
+        my_tweet.district = request.POST.get('my-location2', my_tweet.district)
+        my_tweet.neighborhood = request.POST.get('my-location3', my_tweet.neighborhood)
+        my_tweet.category = request.POST.get('my-category', my_tweet.category)
+        my_tweet.color = request.POST.get('my-color', my_tweet.color)
+        my_tweet.size = request.POST.get('my-size', my_tweet.size)
+        if request.POST.get('my-phone_num') == 'yes':
+            user = request.user
+            my_tweet.phone_num = user.phone_num
+        else:
+            my_tweet.phone_num = 'no'
+        my_tweet.save()
+        return redirect('/found/{}'.format(my_tweet.id))
 

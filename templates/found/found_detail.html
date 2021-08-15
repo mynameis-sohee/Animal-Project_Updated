@@ -28,6 +28,12 @@
                             <div class="card-body">
                                 {% if tweet.author == user %}
                                     <div style="text-align: right">
+                                            <a href="/found/edit/{{ tweet.id }}">
+                                                <span class="badge rounded-pill bg-danger">수정</span>
+                                            </a>
+                                    </div>
+
+                                    <div style="text-align: right">
                                         <a href="/found/delete/{{ tweet.id }}">
                                             <span class="badge rounded-pill bg-danger">삭제</span>
                                         </a>
@@ -37,6 +43,11 @@
                                     <div class="media-bod">
                                         <h5 class="mt-0">발견일시</h5>
                                         <p>{{ tweet.created_at }}</p>
+                                        <br>
+                                    </div>
+                                    <div class="media-bod">
+                                        <h5 class="mt-0">업데이트일시</h5>
+                                        <p>{{ tweet.updated_at }}</p>
                                         <br>
                                     </div>
                                     <div class="media-bod">
@@ -66,9 +77,22 @@
                                         <br>
                                     </div>
 
+                                {% if tweet.author == user and tweet.phone_num == 'no' %}
+                                    <div>
+                                        <p class="mt-0"><strong>주인으로부터 연락 비허용</strong> </p>
+                                        <br>
+                                    </div>
+                                {% endif %}
+
+                                {% if tweet.author == user and tweet.phone_num != 'no' %}
+                                    <div>
+                                        <p class="mt-0"><strong>주인으로부터 연락 허용</strong> </p>
+                                        <br>
+                                    </div>
+                                {% endif %}
 
                              <!-- 목격 게시물에 연락처를 남겼을 경우, 아래 정보를 노출하도록 허용 -->
-                                 {% if tweet.phone_num != 'no' or tweet.phone_num != 'none' %}
+                                 {% if tweet.phone_num != 'no' and tweet.author != user %}
                                     <form method="post" action="/found/{{ tweet.id }}">
                                         {% csrf_token %}
                                         <br>
@@ -79,7 +103,6 @@
                                         <button type="submit" class="btn btn-primary" style="float:right;">연락해보기</button>
                                     </form>
                                     {% endif %}
-
 
                                     <div style="text-align: right">
                                         <span style="font-size: small">{{ tweet.author.username }}-{{ tweet.created_at|timesince }} 전</span>

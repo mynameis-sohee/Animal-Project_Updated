@@ -12,5 +12,6 @@ from django.conf import settings
 urlpatterns = [
     path('found/', views.found, name='found'),
     path('found/delete/<int:id>', views.delete_tweet, name='delete_tweet'),
+    path('found/edit/<int:id>', views.edit_tweet, name='edit_tweet'),
     path('found/<int:id>', views.detail_tweet, name='detail_tweet'),
 ]

@@ -93,7 +93,6 @@
                                                 <p>주인분께서 귀하에게 연락할 수 있도록, 휴대폰 번호를 작성해주세요!</p>
                                                 <p>전화번호는 홈페이지에 노출되지 않습니다.</p>
                                                 <select name='my-phone_num' id="my-phone_num">
-                                                    <option value='none' selected> 선택 </option>
                                                     <option value='yes'>주인으로부터 연락 허용</option>
                                                     <option value='no'>주인으로부터 연락 비허용</option>
                                                 </select>
@@ -122,6 +121,11 @@
                                                 <span class="badge rounded-pill bg-danger">삭제</span>
                                             </a>
                                         </div>
+                                     <div style="text-align: right">
+                                            <a href="/found/edit/{{ tw.id }}">
+                                                <span class="badge rounded-pill bg-danger">수정</span>
+                                            </a>
+                                     </div>
                                     {% endif %}
                                     <div style="text-align: right">
                                         <a href="/found/{{ tw.id }}">
